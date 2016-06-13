@@ -27,6 +27,7 @@ void RCSwitchNode::Init(v8::Local<v8::Object> exports) {
   Nan::SetPrototypeMethod(tpl, "sendTriState", SendTriState);
   Nan::SetPrototypeMethod(tpl, "popEvent", PopEvent);
   Nan::SetPrototypeMethod(tpl, "enableReceive", EnableReceive);
+  Nan::SetPrototypeMethod(tpl, "disableReceive", DisableReceive);
 
   constructor.Reset(tpl->GetFunction());
   exports->Set(Nan::New("RCSwitch").ToLocalChecked(), tpl->GetFunction());
@@ -163,6 +164,14 @@ void RCSwitchNode::EnableReceive(const Nan::FunctionCallbackInfo<v8::Value>& inf
   } else {
     info.GetReturnValue().Set(false);
   }
+}
+
+void RCSwitchNode::DisableReceive(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  Nan::HandleScope scope;
+
+  RCSwitchNode* obj = ObjectWrap::Unwrap<RCSwitchNode>(info.Holder());
+  obj->rcswitch.disableReceive();
+  info.GetReturnValue().Set(true);
 }
 
 // notification.protocol=
