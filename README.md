@@ -27,6 +27,14 @@ rcswitch.switchOff("11000", 2); // Switch off the second unit of 11000 (code 12x
 
 ### Configuration
 
+#### rcswitch.enableReceive(`pin`)
+
+Enable reception on the given pin (make it an INPUT). Must be called before any other functions.
+
+* `pin` - (Number) data Pin to use following [the WiringPi schema](http://wiringpi.com/pins/)
+
+Return true if `pin` is an integer, false otherwise.
+
 #### rcswitch.enableTransmit(`pin`)
 
 Enable transmission on the given pin (make it an OUTPUT). Must be called before any other functions.
@@ -108,6 +116,12 @@ Switch a remote switch off (Type C Intertechno).
 Return true.
 
 ### Other
+
+#### rcswitch.popEvent()
+
+Block the execution until a code is received.
+
+Return the received code.
 
 #### rcswitch.send(`code`, `length`)
 
