@@ -25,6 +25,8 @@ void RCSwitchNode::Init(v8::Local<v8::Object> exports) {
   Nan::SetPrototypeMethod(tpl, "switchOn", SwitchOn);
   Nan::SetPrototypeMethod(tpl, "switchOff", SwitchOff);
   Nan::SetPrototypeMethod(tpl, "sendTriState", SendTriState);
+  Nan::SetPrototypeMethod(tpl, "popEvent", PopEvent);
+  Nan::SetPrototypeMethod(tpl, "enableReceive", EnableReceive);
 
   constructor.Reset(tpl->GetFunction());
   exports->Set(Nan::New("RCSwitch").ToLocalChecked(), tpl->GetFunction());
@@ -139,6 +141,28 @@ void RCSwitchNode::SwitchOn(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
 void RCSwitchNode::SwitchOff(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   SwitchOp(info, false);
+}
+
+void RCSwitchNode::PopEvent(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  Nan::HandleScope scope;
+
+  RCSwitchNode* obj = ObjectWrap::Unwrap<RCSwitchNode>(info.Holder());
+
+  //obj->rcswitch.send(code->Int32Value(), length->Int32Value());
+  info.GetReturnValue().Set((int32_t)obj->rcswitch.popEvent());
+}
+
+void RCSwitchNode::EnableReceive(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  Nan::HandleScope scope;
+  RCSwitchNode* obj = ObjectWrap::Unwrap<RCSwitchNode>(info.Holder());
+
+  v8::Local<v8::Value> pinNr = info[0];
+  if(pinNr->IsInt32()) {
+    obj->rcswitch.enableReceive(pinNr->Int32Value());
+    info.GetReturnValue().Set(true);
+  } else {
+    info.GetReturnValue().Set(false);
+  }
 }
 
 // notification.protocol=
