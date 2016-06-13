@@ -3,7 +3,7 @@ node-rcswitch
 
 [![NPM version](https://badge.fury.io/js/rcswitch.svg)](http://badge.fury.io/js/rcswitch)
 
-Node bindings for the [rcswitch RaspberryPi port](https://github.com/r10r/rcswitch-pi).
+Node bindings for the [rcswitch RaspberryPi port](https://github.com/rb0urd0n/433Utils/tree/master/RPi_utils).
 
 It should be compatible with all versions of Node.js starting from 0.8.
 
@@ -109,13 +109,14 @@ Return true.
 
 ### Other
 
-#### rcswitch.send(`code`)
+#### rcswitch.send(`code`, `length`)
 
 Send raw code.
 
-* `code` - (String) code
+* `code` - (Number) code
+* `length` - (Number) length
 
-Return true.
+Return true if code and length are integers, false otherwise.
 
 #### rcswitch.sendTriState(`code`)
 
