@@ -89,10 +89,15 @@ void RCSwitchNode::Send(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
   RCSwitchNode* obj = ObjectWrap::Unwrap<RCSwitchNode>(info.Holder());
 
-  Nan::Utf8String v8str(info[0]);
-  obj->rcswitch.send(*v8str);
+  v8::Local<v8::Value> code = info[0];
+  v8::Local<v8::Value> length = info[1];
 
-  info.GetReturnValue().Set(true);
+  if(code->IsInt32() && length->IsInt32()){
+    obj->rcswitch.send(code->Int32Value(), length->Int32Value());
+    info.GetReturnValue().Set(true);
+  }else{
+    info.GetReturnValue().Set(false);
+  }
 }
 
 void RCSwitchNode::SendTriState(const Nan::FunctionCallbackInfo<v8::Value>& info) {
