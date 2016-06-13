@@ -15,7 +15,7 @@ void RCSwitchNode::Init(v8::Local<v8::Object> exports) {
   tpl->SetClassName(Nan::New("RCSwitch").ToLocalChecked());
   tpl->InstanceTemplate()->SetInternalFieldCount(1); // 1 since this is a constructor function
 
-  Nan::SetAccessor(tpl->InstanceTemplate(), Nan::New("protocol").ToLocalChecked(), GetProtocol); //, SetProtocol); TODO <- Error at compile-time... ?
+  Nan::SetAccessor(tpl->InstanceTemplate(), Nan::New("protocol").ToLocalChecked(), GetProtocol, SetProtocol);
   Nan::SetPrototypeMethod(tpl, "send", Send);
 
   // Prototype
@@ -175,11 +175,12 @@ void RCSwitchNode::DisableReceive(const Nan::FunctionCallbackInfo<v8::Value>& in
 }
 
 // notification.protocol=
-void RCSwitchNode::SetProtocol(v8::Local<v8::String> property, v8::Local<v8::Value> value, const Nan::PropertyCallbackInfo<v8::Value>& info) {
+void RCSwitchNode::SetProtocol(v8::Local<v8::String> property, v8::Local<v8::Value> value, const Nan::PropertyCallbackInfo<void>& info) {
   RCSwitchNode* obj = ObjectWrap::Unwrap<RCSwitchNode>(info.Holder());
 
-  if(value->IsInt32())
+  if(value->IsInt32()){
     obj->rcswitch.setProtocol(value->Int32Value());
+  }
 }
 
 // notification.protocol
