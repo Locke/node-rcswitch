@@ -4,6 +4,7 @@
 #include <nan.h>
 
 #include "../externals/rcswitch-pi/RCSwitch.h"
+#include "../externals/rcswitch-pi/RFSniffer.h"
 
 class RCSwitchNode : public Nan::ObjectWrap {
  public:
@@ -14,7 +15,7 @@ class RCSwitchNode : public Nan::ObjectWrap {
   static Nan::Persistent<v8::Function> constructor;
   explicit RCSwitchNode();
   ~RCSwitchNode();
-  
+
   static void SwitchOp(const Nan::FunctionCallbackInfo<v8::Value>& info, bool switchOn);
   #define switchOp2(p1, p2) { if(switchOn) thiz->rcswitch.switchOn((p1), (p2)); else thiz->rcswitch.switchOff((p1), (p2)); }
   #define switchOp3(p1, p2, p3) { if(switchOn) thiz->rcswitch.switchOn((p1), (p2), (p3)); else thiz->rcswitch.switchOff((p1), (p2), (p3)); }
@@ -28,7 +29,7 @@ class RCSwitchNode : public Nan::ObjectWrap {
   static void PopEvent(const Nan::FunctionCallbackInfo<v8::Value>& info);
   static void EnableReceive(const Nan::FunctionCallbackInfo<v8::Value>& info);
   static void DisableReceive(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  
+
   static void SetProtocol(v8::Local<v8::String> property, v8::Local<v8::Value> value, const Nan::PropertyCallbackInfo<void>& info);
   static void GetProtocol(v8::Local<v8::String> property, const Nan::PropertyCallbackInfo<v8::Value>& info);
 };
