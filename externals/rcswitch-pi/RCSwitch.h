@@ -30,6 +30,9 @@
 #else
     #include <wiringPi.h>
     #include <stdint.h>
+    #ifdef NULL
+        #undef NULL
+    #endif
     #define NULL 0
     #define CHANGE 1
 #ifdef __cplusplus
