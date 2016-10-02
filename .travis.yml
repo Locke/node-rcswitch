@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+  - "6"
+  - "5"
+  - "4"
+  - "1"
+  - "0.12"
+  - "0.10"
+  #- "0.8"
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - git-core
+    - g++-4.8
+env:
+  -CXX=g++-4.8
+before_install:
+  - git clone --depth=1 git://git.drogon.net/wiringPi && cd wiringPi && sudo ./build && cd ..
+script: npm install

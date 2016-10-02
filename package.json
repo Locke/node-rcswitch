@@ -32,6 +32,6 @@
   "homepage": "https://github.com/rb0urd0n/node-rcswitch",
   "dependencies": {
     "bindings": "^1.2.1",
-    "nan": "^2.0.8"
+    "nan": "^2.4.0"
   }
 }
