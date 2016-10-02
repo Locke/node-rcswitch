@@ -26,6 +26,7 @@ void RCSwitchNode::Init(v8::Local<v8::Object> exports) {
   Nan::SetPrototypeMethod(tpl, "switchOff", SwitchOff);
   Nan::SetPrototypeMethod(tpl, "sendTriState", SendTriState);
   Nan::SetPrototypeMethod(tpl, "popEvent", PopEvent);
+  Nan::SetPrototypeMethod(tpl, "getEvent", GetEvent);
   Nan::SetPrototypeMethod(tpl, "enableReceive", EnableReceive);
   Nan::SetPrototypeMethod(tpl, "disableReceive", DisableReceive);
 
@@ -152,6 +153,31 @@ void RCSwitchNode::PopEvent(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   //obj->rcswitch.send(code->Int32Value(), length->Int32Value());
   info.GetReturnValue().Set((int32_t)obj->rcswitch.popEvent());
 }
+
+void RCSwitchNode::GetEvent(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  Nan::HandleScope scope;
+
+  RCSwitchNode* thiz = ObjectWrap::Unwrap<RCSwitchNode>(info.Holder());
+  Nan::Callback *callback = new Nan::Callback(info[0].As<v8::Function>());
+
+  Nan::AsyncQueueWorker(new RCSwitchWorker(callback, thiz->rcswitch));
+}
+
+void RCSwitchWorker::Execute () {
+  code = rcswitch.popEvent();
+}
+
+void RCSwitchWorker::HandleOKCallback () {
+  Nan::HandleScope scope;
+
+  v8::Local<v8::Value> argv[] = {
+    Nan::Null(),
+    Nan::New<v8::Number>(code)
+  };
+
+  callback->Call(2, argv);
+}
+
 
 void RCSwitchNode::EnableReceive(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   Nan::HandleScope scope;
