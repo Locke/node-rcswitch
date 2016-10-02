@@ -3,7 +3,7 @@
 
 #include <nan.h>
 
-#include "../externals/rcswitch-pi/RCSwitch.h"
+#include "../externals/rc-switch/RCSwitch.h"
 
 class RCSwitchNode : public Nan::ObjectWrap {
  public:
